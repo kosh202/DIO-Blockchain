@@ -38,8 +38,8 @@ contract DIOCoin is IERC20 {
 
     function transfer(address receiver, uint256 numTokens) public override returns (bool) {
         require(numTokens <= balances[msg.sender]);
-        balances[msg.sender] = balances[msg.sender]-numTokens;
-        balances[receiver] = balances[receiver]+numTokens;
+        balances[msg.sender] -= numTokens;
+        balances[receiver] += numTokens;
         emit Transfer(msg.sender, receiver, numTokens);
         return true;
     }
@@ -58,9 +58,9 @@ contract DIOCoin is IERC20 {
         require(numTokens <= balances[owner]);
         require(numTokens <= allowed[owner][msg.sender]);
 
-        balances[owner] = balances[owner]-numTokens;
-        allowed[owner][msg.sender] = allowed[owner][msg.sender]-numTokens;
-        balances[buyer] = balances[buyer]+numTokens;
+        balances[owner] -= numTokens;
+        allowed[owner][msg.sender] -= numTokens;
+        balances[buyer] += numTokens;
         emit Transfer(owner, buyer, numTokens);
         return true;
     }
